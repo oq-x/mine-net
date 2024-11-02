@@ -5,7 +5,6 @@ import (
 	"io"
 	"math"
 	"reflect"
-	"strings"
 	"sync"
 )
 
@@ -149,9 +148,9 @@ func (d *Decoder) unmarshal(v reflect.Value, id byte) error {
 			return fmt.Errorf("nbt: cannot marshal string tag into %v", v.Kind())
 
 		case reflect.String:
-			v.SetString(strings.Clone(str))
+			v.SetString(str)
 		case reflect.Interface:
-			v.Set(reflect.ValueOf(strings.Clone(str)))
+			v.Set(reflect.ValueOf(str))
 		}
 
 	case tagList, tagByteArray, tagIntArray, tagLongArray:
@@ -275,7 +274,6 @@ func (d *Decoder) unmarshalMap(v reflect.Value) error {
 		if err != nil {
 			return err
 		}
-		name = strings.Clone(name)
 
 		switch id {
 
@@ -443,7 +441,7 @@ func (d *Decoder) unmarshalList(v reflect.Value, id byte, length int) error {
 				return err
 			}
 
-			v.Index(i).SetString(strings.Clone(str))
+			v.Index(i).SetString(str)
 		}
 
 	case tagList, tagCompound:
